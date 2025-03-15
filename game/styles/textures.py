@@ -4,7 +4,12 @@ from rich.text import Text
 from InquirerPy import get_style
 
 
-def asciify(text: str, font: str = "slant", colour: Optional[str] = None):
+def asciify(
+    text: str,
+    font: str = "slant",
+    colour: Optional[str] = None,
+    width: Optional[int] = 150,
+):
     ascii_text = pyfiglet.figlet_format(text, font, width=150)
     rich_text = Text(ascii_text)
     if colour:

@@ -1,12 +1,14 @@
+# R.P.S.L.S
+
 RPSLS (Rock, Paper, Scissors, Lizard, Spock) is a CLI game implemented in Python. It extends the regular game of Rock, Paper Scissors by creating x2 additional strengths and weaknesses. 
 The game allows players to choose their profiles and modify the existing elements to compete against each other.
 Alternatively, there is a CPU that can also be beaten.
 
 ## Features
 
-- Play against another player (locally) or the in-built CPU
-- View game statistics
-- Learn how to play the game (TBD)
+- Play against another player (locally) or the in-built CPU - which chooses randomly
+- View and reset the game statistics
+- Learn the strengths and weakneses
 - Customizable profiles and elements
 - Consistent scoreboarding between two players
 
@@ -21,9 +23,7 @@ Alternatively, there is a CPU that can also be beaten.
 2. Install `asdf` and use it to install Poetry:
     ```sh
     # Install asdf (if not already installed)
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2
-    echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-    source ~/.bashrc
+    https://asdf-vm.com/guide/getting-started.html
 
     # Install Poetry using asdf
     asdf plugin-add poetry
@@ -40,10 +40,14 @@ Alternatively, there is a CPU that can also be beaten.
 
 1. Run the game:
     ```sh
-    poetry run python rpsls/rpsls_cli.py
+    poetry run python game/core/cli.py
     ```
 
 2. Alternatively, you can use the `justfile` to play the game:
+    ```sh
+    brew install just
+    ```
+
     ```sh
     just play
     ```
@@ -52,29 +56,36 @@ Alternatively, there is a CPU that can also be beaten.
 
 ## Customization
 
-You can customize the game by updating the `rpsls/rules/gamedata.yaml` file to add more players and elements and update scores.
+You can customize the game by updating the `game/data/game_data.yaml` file to add more players and elements and update scores.
 
-### Example `gamedata.yaml`
+### Example `game_data.yaml`
 
 ```yaml
-Game:
-  High_score: 10
-  Player: "Player1"
+Record:
+  High_score: 0
+  Player: "Jazz"
 
 Players:
-  - name: "Player1"
-    total_win_count: 5
+  - name: "Jazz"
+    total_win_count: 0
+    battles_fought: 0
 
-  - name: "Player2"
-    total_win_count: 3
+  - name: "Fabiana"
+    total_win_count: 0
+    battles_fought: 0
+
+  - name: "Aadil"
+    total_win_count: 0
+    battles_fought: 0
 
   - name: "CPU"
-    total_win_count: 2
+    total_win_count: 0
+    battles_fought: 0
 
 Elements:
   - name: "Rock"
-    colour: "grey"
-    font: "standard"
+    colour: "red"
+    font: "isometric1"
     wins_against:
       - state: "Scissors"
         action: "crushes"
@@ -83,8 +94,8 @@ Elements:
         action: "crushes"
 
   - name: "Paper"
-    colour: "white"
-    font: "standard"
+    colour: "tan"
+    font: "lean"
     wins_against:
       - state: "Rock"
         action: "covers"
@@ -93,8 +104,8 @@ Elements:
         action: "disproves"
 
   - name: "Scissors"
-    colour: "silver"
-    font: "standard"
+    colour: "bright_black"
+    font: "5lineoblique"
     wins_against:
       - state: "Paper"
         action: "cuts"
@@ -104,7 +115,7 @@ Elements:
 
   - name: "Lizard"
     colour: "green"
-    font: "standard"
+    font: "cosmic"
     wins_against:
       - state: "Spock"
         action: "poisons"
@@ -114,7 +125,7 @@ Elements:
 
   - name: "Spock"
     colour: "blue"
-    font: "standard"
+    font: "epic"
     wins_against:
       - state: "Scissors"
         action: "smashes"

@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "rpsls"
+name = "game"
 version = "0.1.0"
 description = "Rock, Paper, Scissors, Lizard, Spock!"
-authors = ["Your Name <you@example.com>"]
+authors = ["Jazz Q <thatoneguythough>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

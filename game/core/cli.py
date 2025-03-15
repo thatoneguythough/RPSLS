@@ -131,7 +131,7 @@ class CLI:
         assert P2.element is not None
 
         c.print(f"\n{P1.name} chose: {P1.element.name}", style="bold cyan")
-        c.print(f"{P2.name} chose: {P2.element.name}", style="bold red")
+        c.print(f"{P2.name} chose: {P2.element.name}\n", style="bold red")
 
         return self.game.determine_winner(P1, P2)
 
