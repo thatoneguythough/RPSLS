@@ -1,0 +1,54 @@
+Elements:
+- colour: Red
+  font: alligator2
+  name: Rock
+  wins_against:
+  - action: crushes
+    state: Scissors
+  - action: crushes
+    state: Lizard
+- colour: White
+  font: alligator2
+  name: Paper
+  wins_against:
+  - action: covers
+    state: Rock
+  - action: disproves
+    state: Spock
+- colour: Yellow
+  font: alligator2
+  name: Scissors
+  wins_against:
+  - action: cuts
+    state: Paper
+  - action: decapitates
+    state: Lizard
+- colour: Green
+  font: alligator2
+  name: Lizard
+  wins_against:
+  - action: eats
+    state: Paper
+  - action: poisons
+    state: Spock
+- colour: Blue
+  font: alligator2
+  name: Spock
+  wins_against:
+  - action: smashes
+    state: Scissors
+  - action: vapourises
+    state: Rock
+Players:
+- battles_fought: 1
+  name: Jazz
+  total_win_count: 1
+- battles_fought: 0
+  name: Fabiana
+  total_win_count: 0
+- battles_fought: 0
+  name: CPU
+  total_win_count: 0
+Record:
+  High_score: 1
+  Player: Jazz
