@@ -3,6 +3,7 @@ import yaml
 from typing import Optional
 from jsonschema import validate, ValidationError
 from rich.console import Console
+from rich.text import Text
 
 from ..data.specs import Player, Element, Record
 from ..styles.textures import asciify
@@ -46,10 +47,19 @@ class RPSLS:
                 P1.total_win_count += 1
                 P1.active_score += 1
                 P1.battles_fought += 1
-                c.print(
-                    f"\n--= {P1.element.name} {outcome['action']} {P2.element.name} =--",
-                    style="bold dark_orange",
-                )
+
+                text1 = asciify(P1.element.name, P1.element.font, P1.element.colour)
+                text2 = asciify((outcome["action"]))
+                text3 = asciify(P2.element.name, P2.element.font, P2.element.colour)
+
+                combined_text = Text()
+                combined_text.append(text1)
+                combined_text.append(" ")
+                combined_text.append(text2)
+                combined_text.append(" ")
+                combined_text.append(text3)
+
+                c.print(combined_text)
                 c.print(f"\n{P1.name} wins!", style="bold green")
                 c.print(
                     f"\n{P1.name} : {P1.active_score} | {P2.active_score} : {P2.name}"
@@ -64,10 +74,7 @@ class RPSLS:
                 P2.total_win_count += 1
                 P2.active_score += 1
                 P2.battles_fought += 1
-                c.print(
-                    f"\n--= {P2.element.name} {outcome['action']} {P1.element.name} =--",
-                    style="bold dark_orange",
-                )
+                self.print_combined_text(P2.element, outcome["action"], P1.element)
                 c.print(f"\n{P2.name} wins!", style="bold green")
                 c.print(
                     f"\n{P1.name} : {P1.active_score} | {P2.active_score} : {P2.name}"
@@ -75,6 +82,25 @@ class RPSLS:
 
                 self.find_highscore()
                 return False
+
+    def print_combined_text(
+        self, element1: Element, action: str, element2: Element
+    ) -> None:
+        """
+        Helper function to print combined ASCII text with different fonts and colors.
+        """
+        text1 = asciify(element1.name, font=element1.font, colour=element1.colour)
+        text2 = asciify(text=action, colour="yellow")
+        text3 = asciify(element2.name, font=element2.font, colour=element2.colour)
+
+        combined_text = Text()
+        combined_text.append(text1)
+        combined_text.append(" ")
+        combined_text.append(text2)
+        combined_text.append(" ")
+        combined_text.append(text3)
+
+        c.print(combined_text)
 
     def find_highscore(self) -> None:
         highest_score_player = max(
@@ -109,22 +135,22 @@ class RPSLS:
             raise ValueError(f"Invalid game data: {e.message}")
 
         # Parses through the game data to collect: Elements, Player and Game Data
-        self.elements = [
-            Element(
-                value["name"], value["colour"], value["font"], value["wins_against"]
-            )
-            for value in game_data["Elements"]
-        ]
+        self.record = Record(
+            high_score=game_data["Record"]["High_score"],
+            player=game_data["Record"]["Player"],
+        )
 
         self.players = [
             Player(value["name"], value["total_win_count"], value["battles_fought"])
             for value in game_data["Players"]
         ]
 
-        self.record = Record(
-            high_score=game_data["Record"]["High_score"],
-            player=game_data["Record"]["Player"],
-        )
+        self.elements = [
+            Element(
+                value["name"], value["colour"], value["font"], value["wins_against"]
+            )
+            for value in game_data["Elements"]
+        ]
 
     def reset_game_data(self, filepath) -> None:
         # Resets player data
@@ -168,5 +194,14 @@ class RPSLS:
             ],
         }
 
-        updated_yaml_file = open(filepath, "w")
-        yaml.safe_dump(game_data, updated_yaml_file)
+        with open(filepath, "w") as updated_yaml_file:
+            updated_yaml_file.write("# Game Data set\n")
+            updated_yaml_file.write(
+                "# yaml-language-server: $schema=./game_schema.json\n"
+            )
+            yaml.safe_dump(
+                game_data,
+                updated_yaml_file,
+                default_flow_style=False,
+                sort_keys=False,
+            )
