@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "rpsls"
+version = "0.1.0"
+description = "Rock, Paper, Scissors, Lizard, Spock!"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+inquirerpy = "==0.3.4"
+rich = "^13.9.4"
+pyfiglet = "^1.0.2"
+pyyaml = "^6.0.2"
+mypy = "^1.15.0"
+just = "^0.8.162"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.0"
+mypy = "^1.15.0"
+jsonschema = "^4.23.0"
+colorama = "^0.4.6"
+types-pyyaml = "^6.0.12.20241230"
+types-jsonschema = "^4.23.0.20241208"
+types-colorama = "^0.4.15.20240311"
+pyfiglet = "^1.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

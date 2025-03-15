@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://example.com/product.schema.json",
+    "title": "Rules",
+    "description": "Specification for the schema of players and elemets",
+    "type": "object",
+    "properties": {
+        "Params": {
+            "type": "object"
+        },
+        "Players": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "Player definition",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "total_win_count": {
+                        "type": "integer"
+                    },
+                    "battles_fought": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "name",
+                    "total_win_count",
+                    "battles_fought"
+                ]
+            }
+        },
+        "Elements": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "List of elements and winning states",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "colour": {
+                        "type": "string"
+                    },
+                    "font": {
+                        "type": "string"
+                    },
+                    "wins_against": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "string"
+                                },
+                                "action": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "state",
+                                "action"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "font",
+                    "wins_against"
+                ]
+            }
+        },
+        "Record": {
+            "type": "object",
+            "properties": {
+                "High_score": {
+                    "type": "integer"
+                },
+                "Player": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "High_score",
+                "Player"
+            ]
+        }
+    }
+}
